@@ -1,0 +1,29 @@
+.signUp{
+    display: flex;
+    height: 100vh;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo{
+    display: flex;
+    height: 100px;
+    justify-content: center;
+    align-items: center;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 100px;
+}
+
+.logIn{
+    display: flex;
+    height: 100vh;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+}
