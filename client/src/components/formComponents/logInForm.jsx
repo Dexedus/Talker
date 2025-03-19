@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 
 function LogInForm(){
-const [username, setUsername] = useState("")
-const [password, setPassword] = useState("")
+const [username, setUsername] = useState("");
+const [password, setPassword] = useState("");
+const [message, setMessage] = useState("");
 
+const submit = async (e) =>{
+    e.preventDefault(); // Prevent form refresh
 
-function submit(){
     console.log("This is the " + username)
     console.log("This is the " + password)
 }
 
     return(
-        <form>
+        <form onSubmit={submit}>
             <h2>Log In</h2>
             <h3>Enter your Username</h3>
             <input type="text" name="username" onChange={((e)=>{
@@ -21,7 +23,7 @@ function submit(){
             <input type="text" name="password" onChange={((e)=>{
                 setPassword(e.target.value);
             })} required></input>
-            <button onClick={submit}>Submit</button>
+            <button className="submitButtonForm" type="submit">Submit</button>
         </form>
     )
 }

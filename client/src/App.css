@@ -1,15 +1,16 @@
-.signUp{
+body{
+    margin: 0px;
+    font-family: sans-serif;
+    background-color: rgb(58, 40, 73);
+    color: white;
+    cursor: default;
+}
+
+.signUp, .logIn{
     display: flex;
     height: 100vh;
     justify-content: space-between;
     flex-direction: column;
-    align-items: center;
-}
-
-.logo{
-    display: flex;
-    height: 100px;
-    justify-content: center;
     align-items: center;
 }
 
@@ -17,13 +18,17 @@ form{
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 100px;
+    margin-bottom: 20px;
 }
 
-.logIn{
-    display: flex;
-    height: 100vh;
-    justify-content: space-between;
-    flex-direction: column;
-    align-items: center;
+.submitButtonForm{
+    margin-top: 20px;
+    padding-inline: 10px;
+    padding-block: 5px;
+    border-radius: 10px;
+    border: none;
+}
+
+.submitButtonForm:hover{
+    cursor: pointer;
 }
