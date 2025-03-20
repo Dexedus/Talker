@@ -28,9 +28,9 @@ const submit = async(e) => {
             }, 2000);
         }
     } catch (error) {
-        setMessage("Username already taken, please choose another.");
-        setTimeout(() => {
-            navigate("/signup"); // Redirect to login page after message is shown
+            setMessage("Username already taken, please choose another.");
+            setTimeout(() => {
+            setMessage("")
             }, 2000);
         console.error(error);
     }
