@@ -6,7 +6,7 @@ body{
     cursor: default;
 }
 
-.signUp, .logIn{
+.signUp, .logIn, .home{
     display: flex;
     height: 100vh;
     justify-content: space-between;
@@ -27,8 +27,10 @@ form{
     padding-block: 5px;
     border-radius: 10px;
     border: none;
+    transition: 0.2s background-color;
 }
 
 .submitButtonForm:hover{
     cursor: pointer;
+    background-color: rgb(196, 196, 196);
 }

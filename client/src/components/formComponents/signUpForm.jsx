@@ -25,12 +25,7 @@ const submit = async(e) => {
             setMessage("Successful Registration!");
             setTimeout(() => {
             navigate("/login"); // Redirect to login page after message is shown
-            }, 1000);
-        } else if (response.status === 400){
-            setMessage("Username already exists, try again")
-            setTimeout(() => {
-            navigate("/signup"); // Redirect to signup page if status is 400
-            }, 1000);
+            }, 2000);
         }
     } catch (error) {
         setMessage("Username already taken, please choose another.");
@@ -41,21 +36,32 @@ const submit = async(e) => {
 
 }
 
-    return(
+return (
+    message ? (
+        <p>{message}</p>
+    ) : (
         <form onSubmit={submit}>
             <h2>Sign Up</h2>
             <h3>Enter Username</h3>
-            <input type="text" name="username" onChange={((e)=>{
-                setUsername(e.target.value);
-            })} required></input>
+            <input 
+                type="text" 
+                name="username" 
+                value={username} 
+                onChange={(e) => setUsername(e.target.value)} 
+                required
+            />
             <h3>Enter Password</h3>
-            <input type="password" name="password" onChange={((e)=>{
-                setPassword(e.target.value);
-            })} required></input>
+            <input 
+                type="password" 
+                name="password" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                required
+            />
             <button className="submitButtonForm" type="submit">Submit</button>
-            {message && <p>{message}</p>}
         </form>
     )
+);
 }
 
 export default SignUpForm;
