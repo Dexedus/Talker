@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-import 'dotenv/config';
 import axios from "axios"
 
 function SignUpForm(){
@@ -10,12 +9,11 @@ const [message, setMessage] = useState("");
 
 const navigate = useNavigate();
 
-
-const submit = async(e) => {
+const submit = async (e) => {
     e.preventDefault(); // Prevent form refresh
 
     try {
-        const response = await axios.post(process.env.domain+"/signup", {
+        const response = await axios.post("https://talker-server.onrender.com/signup", {
             username,
             password,
         });
@@ -32,7 +30,6 @@ const submit = async(e) => {
             }, 2000);
         console.error(error);
     }
-
 
 
 }

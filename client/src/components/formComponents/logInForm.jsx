@@ -13,7 +13,7 @@ const submit = async (e) =>{
     e.preventDefault(); // Prevent form refresh
 
     try {
-        const response = await axios.post(process.env.domain"/login", {
+        const response = await axios.post("https://talker-server.onrender.com/login", {
             username,
             password,
         });
