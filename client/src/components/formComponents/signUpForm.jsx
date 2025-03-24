@@ -13,9 +13,6 @@ const navigate = useNavigate();
 const submit = async(e) => {
     e.preventDefault(); // Prevent form refresh
 
-    // console.log("This is the " + username)
-    // console.log("This is the " + password)
-
     try {
         const response = await axios.post("http://localhost:5000/signup", {
             username,
