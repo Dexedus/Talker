@@ -13,7 +13,7 @@ const submit = async (e) =>{
     e.preventDefault(); // Prevent form refresh
 
     try {
-        const response = await axios.post("http://localhost:5000/login", {
+        const response = await axios.post(process.env.domain"/login", {
             username,
             password,
         });

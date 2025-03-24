@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import 'dotenv/config';
 import axios from "axios"
 
 function SignUpForm(){
@@ -14,7 +15,7 @@ const submit = async(e) => {
     e.preventDefault(); // Prevent form refresh
 
     try {
-        const response = await axios.post("http://localhost:5000/signup", {
+        const response = await axios.post(process.env.domain+"/signup", {
             username,
             password,
         });
