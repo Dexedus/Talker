@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios"
 
+
 function LogInForm(){
 const [username, setUsername] = useState("");
 const [password, setPassword] = useState("");
@@ -18,7 +19,7 @@ const submit = async (e) =>{
     e.preventDefault(); // Prevent form refresh
 
     try {
-        const response = await axios.post("http://localhost:5000/login", {
+        const response = await axios.post(`${process.env.REACT_APP_DOMAIN}/login`, {
             username,
             password,
         }, {

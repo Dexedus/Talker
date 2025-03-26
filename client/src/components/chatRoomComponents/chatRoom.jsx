@@ -2,6 +2,7 @@ import { React, useState, useEffect } from "react";
 import axios from "axios"
 import { Navigate, useNavigate } from "react-router-dom";
 
+
 function Chatroom(){
 
     const [input, setInput] = useState("");
@@ -13,7 +14,7 @@ function Chatroom(){
     useEffect(() => {
       const fetchPosts = async () => {
           try {
-              const response = await axios.get("http://localhost:5000/getPosts", {
+              const response = await axios.get(`${process.env.REACT_APP_DOMAIN}/getPosts`, {
                   withCredentials: true, // Ensures cookies are sent
               });
               setPosts(response.data);
@@ -36,13 +37,13 @@ function Chatroom(){
       console.log(input);
   
       try {
-        await axios.post("http://localhost:5000/addPosts", { message: input }, {
+        await axios.post(`${process.env.REACT_APP_DOMAIN}/addPosts`, { message: input }, {
           withCredentials: true,  // Ensure cookies are included
       }
     );
         setInput(""); 
         // Re-fetch posts after submitting a new message
-        const response = await axios.get("http://localhost:5000/getPosts");
+        const response = await axios.get(`${process.env.REACT_APP_DOMAIN}/getPosts`);
         setPosts(response.data);
       } catch (error) {
         console.error("Error submitting post:", error);
