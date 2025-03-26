@@ -9,18 +9,23 @@ const [message, setMessage] = useState("");
 
 const navigate = useNavigate();
 
+const goToLogIn = async (e) => {
+    e.preventDefault(); // Prevent form refresh
+    navigate("/")
+}
+
 const submit = async (e) => {
     e.preventDefault(); // Prevent form refresh
 
     try {
-        const response = await axios.post("https://talker-server.onrender.com/signup", {
+        const response = await axios.post("http://localhost:5000/signup", {
             username,
             password,
         });
         if (response.status === 200) {
             setMessage("Successful Registration!");
             setTimeout(() => {
-            navigate("/login"); // Redirect to login page after message is shown
+            navigate("/"); // Redirect to login page after message is shown
             }, 2000);
         }
     } catch (error) {
@@ -56,7 +61,10 @@ return (
                 onChange={(e) => setPassword(e.target.value)} 
                 required
             />
-            <button className="submitButtonForm" type="submit">Submit</button>
+            <div className="formButtonContainer">
+              <button className="submitButtonForm" type="submit">Submit</button>
+              <button className="goToLogInButton" onClick={goToLogIn}>Log In</button>
+            </div>
         </form>
     )
 );

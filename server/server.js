@@ -25,11 +25,12 @@ const db = new pg.Client({
 
   //Middleware
 app.use(cors({
-  origin: process.env.domain,  // The URL where your React app is running
+  origin: process.env.domain,       // The URL where your React app is running
   methods: "GET,POST",              // Allow POST requests
   credentials: true                 // Allow credentials (cookies, etc.)
 }));
-app.use(express.json());  // Middleware for parsing JSON request bodies
+
+app.use(express.json());            // Middleware for parsing JSON request bodies
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -38,13 +39,18 @@ app.use(
   session({
     secret: "TOPSECRETWORD",
     resave: false,
-    saveUninitialized: true, 
+    saveUninitialized: false, 
     cookie: {
         maxAge: 1000 * 60 * 60 * 24,
     },
   })
 );
 
+//Passport module MUST go after session module.
+app.use(passport.initialize());
+app.use(passport.session());
+
+let account = [];
 let userID = []
 
 
@@ -69,7 +75,42 @@ app.post("/signup", async (req, res) => {
 // If username exists in database, return an error in the form of status 400
   res.status(400).json({ message: "Username already taken"});
   }
-})
+});
+
+
+
+app.get("/getPosts", async (req, res) => {
+  if(req.isAuthenticated()){
+  try {
+    const result = await db.query("SELECT * FROM messages ORDER BY created_at DESC");
+    res.json(result.rows);
+    console.log(result.rows);
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+} else {
+  res.status(401).json({ error: "Not Authenticated" })
+}
+});
+
+app.post("/addPosts", async (req, res) => {
+  if(req.isAuthenticated()){
+  try {
+    const { message } = req.body;
+    const userID = req.user.id
+    const result = await db.query("INSERT INTO messages (content, user_id) VALUES ($1, $2) RETURNING *", [message, userID])
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error("Error adding posts:", error);
+    res.status(500).json({ error: "Internal  Server Error" });
+  }
+} else {
+  return res.status(401).json({ error: "User is not authenticated" })
+}
+});
+
+
 
 
 
@@ -80,15 +121,22 @@ app.post("/login", passport.authenticate("local", {
 }));
 
 app.get("/", (req, res) => {
+  if(req.isAuthenticated()){
   res.status(200).json({
     message: "Welcome, authenticated user!",
   });
+} else {
+  res.status(401).json( { message: "Error Authenticating User" } )
+}
 })
 
 //Wrong password
 app.get("/failedPassword", (req, res) => {
   res.status(401).json({ message: "Invalid username or password" });
 });
+
+
+
 
 
 
@@ -105,20 +153,12 @@ if (data.rows.length > 0){
   userID = account.id;
 
   //Compare the inputted password with the hashedpassword.
-  bcrypt.compare(password, hashedPassword, async (err, result) =>{
-      //if err, console.log it otherwise render the homepage.
-      if(err){
-          return cb(err)
-      } else {
-          if(result){
-              return cb(null, account)
-
-      //If the passwords don't match, reload the log in page.
-      } else {
-          return cb(null, false)
-      };
-    };
-  });
+  const result = await bcrypt.compare(password, hashedPassword);
+  if (result) {
+    return cb(null, account);
+  } else {
+    return cb(null, false, { message: "Invalid credentials" });
+  }
 
 } else {
   return cb("user not found")
@@ -132,12 +172,23 @@ if (data.rows.length > 0){
 
 
 passport.serializeUser((account, cb) => {
-  cb(null, account);
+  cb(null, account.id);
 });
 
-passport.deserializeUser((account, cb) => {
-  cb(null, account);
+passport.deserializeUser(async (id, cb) => {
+  try {
+    const { rows } = await db.query("SELECT * FROM users WHERE id = $1", [id]);
+    if (!rows.length) return cb("User not found");
+    cb(null, rows[0]);
+  } catch (err) {
+    cb(err);
+  }
 });
+
+
+
+
+
 
 
 app.listen(5000, () => {
