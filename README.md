@@ -9,8 +9,8 @@ I will also allow users to add other users to their 'friend list'. They will fin
 
 ### Current State of App
 Still very early in production.
-Users can sign up and log in. Errors are handled, and upon successful log in, the user gets sent to the homepage which as of right now consists of an input and a submit button. 
-Submitting currently just resets the input state value to an empty string and does nothing else.
+Users can sign up and log in. Errors are handled, and upon successful log in, the user gets sent to the homepage which as of right now consists of an input where a user can send a message to the chat room. useEffect is used to update the chatroom with the messages stored in the database every time the component is mounted.
+Right now this is all there is to the app, it is a work in progress as I continue to learn how to use React.js
 
 ### To-Do
 - Attach a button to the sign up page to take the user to the log in page. This way, users who have previously signed up can skip the sign up stage.
